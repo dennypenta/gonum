@@ -44,12 +44,21 @@ func (e *Enum) Render(args RenderArgs) error {
 		return errors.Wrap(err, "render")
 	}
 
-	//fileName := e.filename(args.Path, args.FileName)
-	if !strings.HasSuffix(args.Path, ".go") {
-		args.Path += ".go"
-	}
-	f, err := os.Create(args.Path)
+	wd, err := os.Getwd()
 	if err != nil {
+		return errors.Wrap(err, "can not get working directory")
+	}
+
+	path := wd + "/" + args.Path
+	f, err := os.Create(path)
+	if err != nil {
+		partsPath := strings.Split(path, "/")
+		dir := strings.Join(partsPath[:len(partsPath) - 1], "/")
+		if err := os.MkdirAll(dir, 0755); err != nil {
+			return errors.Wrap(err, "can not create file")
+		}
+
+		f, err = os.Create(path)
 		return errors.Wrap(err, "can not create file")
 	}
 
@@ -59,11 +68,3 @@ func (e *Enum) Render(args RenderArgs) error {
 
 	return nil
 }
-
-//func (e Enum) filename(path, filename string) string {
-//	if strings.HasSuffix(path, "/") {
-//		return path + filename
-//	}
-//
-//	return path + "/" + filename
-//}

@@ -6,7 +6,7 @@ import (
 	"log"
 )
 
-var _type, dir, _package string
+var _type, filepath, _package string
 var values []string
 
 func init() {
@@ -15,8 +15,8 @@ func init() {
 	newCmd.Flags().StringVarP(&_type, "type", "t", "", "type name (required)")
 	newCmd.MarkFlagRequired("type")
 
-	newCmd.Flags().StringVarP(&dir, "dir", "d", ".", "directory where must be pasted generated file")
-	newCmd.MarkFlagRequired("dir")
+	newCmd.Flags().StringVarP(&filepath, "output", "o", "", "file path where must be pasted generated code")
+	newCmd.MarkFlagRequired("output")
 
 	newCmd.Flags().StringVarP(&_package, "package", "p", "", "package name for generated file (required)")
 	newCmd.MarkFlagRequired("package")
@@ -33,7 +33,7 @@ func init() {
 type Params struct {
 	Type string
 	Values []string
-	Dir string
+	Filepath string
 	Package string
 }
 
@@ -46,7 +46,7 @@ var newCmd = &cobra.Command{
 			Package: _package,
 			Type: _type,
 			Values: values,
-			Path: dir,
+			Path: filepath,
 		}
 		if err := enum.Render(renderArgs); err != nil {
 			log.Fatal(err)
