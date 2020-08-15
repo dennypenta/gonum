@@ -2,7 +2,9 @@
 It makes possible don't write again and again another one iota type
 
 ## How to use
+```go
 gonum new -t=Country -p=countries -v=ru,en -o=examples/countries.go
+```
 
 where:
   -t mean a type name
