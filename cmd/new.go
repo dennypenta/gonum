@@ -25,7 +25,9 @@ func init() {
 	newCmd.MarkFlagRequired("values")
 
 	// TODO: add optional withType option for names
-	// fix path for generated files
+	// directory
+	// readme
+	// install
 }
 
 type Params struct {
