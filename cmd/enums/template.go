@@ -1,24 +1,27 @@
 package enums
 
+// {{ if eq $i 0 }} 
+// {{ withType $v }} = iota + 1 {{ else }}
+
 const Template = `package {{ .Package }}
 
 import "errors"
 
 type {{ title .Type }} uint8
 
-const ({{ range $i, $v :=  .Values }} {{ if eq $i 0 }} 
-   {{ withType $v }} = iota + 1 {{ else }} 
-   {{ withType $v }} {{ end }}	{{ end }}
+const (
+	Invalid{{ title .Type }} {{ .Type }} = iota	{{ range $i, $v :=  .Values }}
+	{{ title $v }}{{ end }}
 )
 
 var {{ lower .Type }}Table = map[string]{{ .Type }}{ {{ range .Values }}
-    "{{ upper . }}": {{ withType . }}, {{ end }}
+    "{{ title . }}": {{ withType . }}, {{ end }}
 }
 
 func (t {{ title .Type }}) String() string {
 	switch t { {{ range .Values }}    
     case {{ withType . }}:
-        return "{{ upper . }}"	{{ end }}
+        return "{{ title . }}"	{{ end }}
     }
 	return "unknown"
 }
