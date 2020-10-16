@@ -15,12 +15,12 @@ const (
 )
 
 var {{ lower .Type }}Table = map[string]{{ .Type }}{ {{ range .Values }}
-    "{{ title . }}": {{ withType . }}, {{ end }}
+    "{{ title . }}": {{ title . }}, {{ end }}
 }
 
 func (t {{ title .Type }}) String() string {
 	switch t { {{ range .Values }}    
-    case {{ withType . }}:
+    case {{ title . }}:
         return "{{ title . }}"	{{ end }}
     }
 	return "unknown"
